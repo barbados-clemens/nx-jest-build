@@ -72,6 +72,12 @@
       }
     },
     "test": {
+      "executor": "@nx/angular:jest",
+      "options": {
+        "tsConfig": "apps/demo/tsconfig.spec.json"
+      }
+    },
+    "xtest": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
