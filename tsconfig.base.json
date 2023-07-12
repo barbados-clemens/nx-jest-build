@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@ng-jest-impl/ng-lib-one": ["libs/ng-lib-one/src/index.ts"],
+      "@ng-jest-impl/ng-lib-two": ["libs/ng-lib-two/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

@@ -22,4 +22,13 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app.title).toEqual('demo');
   });
+
+  it('should snapshot', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    expect(fixture.componentInstance).toMatchSnapshot();
+  });
+  it('should inline snapshot', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    expect(fixture.componentInstance).toMatchInlineSnapshot();
+  });
 });
