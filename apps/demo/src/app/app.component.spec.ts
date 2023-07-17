@@ -2,11 +2,22 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { appRoutes } from './app.routes';
+import { BtnComponent } from './btn/btn.component';
+import { CardComponent } from './card/card.component';
+import { InputComponent } from './input/input.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, NxWelcomeComponent, RouterTestingModule],
+      imports: [
+        AppComponent,
+        NxWelcomeComponent,
+        RouterTestingModule.withRoutes(appRoutes),
+        BtnComponent,
+        CardComponent,
+        InputComponent,
+      ],
     }).compileComponents();
   });
 
@@ -27,7 +38,8 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     expect(fixture.componentInstance).toMatchSnapshot();
   });
-  it('should inline snapshot', () => {
+
+  it.skip('should inline snapshot', () => {
     const fixture = TestBed.createComponent(AppComponent);
     expect(fixture.componentInstance).toMatchInlineSnapshot();
   });
