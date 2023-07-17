@@ -6,9 +6,4 @@ export const appRoutes: Route[] = [
     loadChildren: () =>
       import('@ng-jest-impl/ng-lib-two').then((m) => m.NgLibTwoModule),
   },
-  {
-    path: 'ng-lib-one',
-    loadChildren: () =>
-      import('@ng-jest-impl/ng-lib-one').then((m) => m.NgLibOneModule),
-  },
 ];
