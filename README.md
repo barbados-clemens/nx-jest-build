@@ -34,3 +34,43 @@ ENOENT: no such file or directory, open '/Users/caleb/Work/sandbox/ng-jest-impl/
 at saveSnapshotsForFile (../../../node_modules/jest-snapshot/build/InlineSnapshots.js:118:22)
 
 ```
+> This is caleb from the future adding more info
+
+This is basically the snapshotResolver I wrote.
+
+```js
+const { dirname, basename, relative } = require('node:path');
+const { workspaceRoot} = require('@nx/devkit');
+module.exports = {
+  // resolves from test to snapshot path
+  resolveSnapshotPath: (testPath, snapshotExtension) => {
+    // remove dist/test-out from the path 
+    // TODO this should be in the project root not next to the test file.
+    const parentDir = dirname(testPath.replace('dist/test-out/', ''));
+    const fileName = basename(testPath);
+   return parentDir + '/__snapshots__/' + fileName + snapshotExtension
+  },
+
+  // resolves from snapshot to test path
+  resolveTestPath: (snapshotFilePath, snapshotExtension) => {
+    console.log({snapshotFilePath, snapshotExtension})
+ 
+    const fromWSRoot = relative(workspaceRoot, snapshotFilePath);
+   const r = fromWSRoot
+      .replace('__snapshots__/', '')
+      .slice(0, -snapshotExtension.length);
+    const v = 
+    `${workspaceRoot}/dist/test-out/${r}`;
+
+    console.log({fromWSRoot, r, v});
+    return v;
+} ,
+  // Example test path, used for preflight consistency check of the implementation above
+// assuming the compiled output is something like <workspaceRoot>dist/test-out/<projectRoot>/<pathToSpecFile>
+  testPathForConsistencyCheck: `${workspaceRoot}/dist/test-out/apps/demo/src/example.spec.mjs`
+};
+```
+The main issue is the snapshots are placed in the directory where the test file comes from instead of the project root. 
+using the graph should be able to find the actual project root for a given file. I just didn't go that far. 
+
+The other bit is this only resolves the snapshot files and doesn't do anything for inlineSnapshots as far as I can tell. For inline snapshots I believe the sourceMaps are leveraged to figure out how to add those back to the original files. otherwise the compiled .spec.mjs files will be the one the snapshot info is written to. 
